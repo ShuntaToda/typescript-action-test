@@ -27298,7 +27298,7 @@ async function wait(milliseconds) {
  *
  * @returns Resolves when the action is complete.
  */
-async function run() {
+async function run$2() {
     try {
         const ms = coreExports.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
@@ -27321,7 +27321,7 @@ async function run() {
  * Hello World ワークフローのメイン関数
  * 手動実行でHello Worldを出力します
  */
-async function helloWorld() {
+async function run$1() {
     try {
         const name = coreExports.getInput('name') || process.env.INPUT_NAME || 'World';
         const message = `Hello ${name}!`;
@@ -31303,7 +31303,7 @@ var githubExports = requireGithub();
  * Daily Activity ワークフローのメイン関数
  * リポジトリ作成者のアクティビティを表示します
  */
-async function dailyActivity() {
+async function run() {
     try {
         const context = githubExports.context;
         const repoOwner = context.repo.owner;
@@ -31345,14 +31345,14 @@ const main = async () => {
     const workflowType = getWorkflowType();
     switch (workflowType) {
         case 'hello-world':
-            await helloWorld();
+            await run$1();
             break;
         case 'daily-activity':
-            await dailyActivity();
+            await run();
             break;
         case 'default':
         default:
-            await run();
+            await run$2();
             break;
     }
 };
