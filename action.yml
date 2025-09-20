@@ -1,23 +1,30 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: TypeScript Action Test
+description: TypeScript製のGitHub Actionテスト用アクション
+author: toda.shunta
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: heart
-  color: red
+  icon: activity
+  color: blue
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
-    required: true
-    default: '1000'
+  name:
+    description: 挨拶する名前
+    required: false
+    default: 'World'
+  workflow-type:
+    description:
+      実行するワークフローのタイプ（hello-world または daily-activity）
+    required: false
+    default: 'hello-world'
 
 # Define your outputs here.
 outputs:
-  time:
-    description: Your output description here
+  message:
+    description: Hello Worldワークフローからのメッセージ
+  activity-summary:
+    description: Daily Activityワークフローからのアクティビティサマリー
 
 runs:
   using: node24
