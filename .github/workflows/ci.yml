@@ -44,21 +44,48 @@ jobs:
         id: npm-ci-test
         run: npm run ci-test
 
-  test-action:
-    name: GitHub Actions Test
+  test-all-workflows:
+    name: Test All Workflow Types
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        test-case: ['default', 'hello-world', 'daily-activity']
+        include:
+          - test-case: 'default'
+            workflow-type: ''
+            test-name: 'Default User'
+            expected-output: 'time'
+            milliseconds: '2000'
+            use-default: true
+          - test-case: 'hello-world'
+            workflow-type: 'hello-world'
+            test-name: 'GitHub Actions'
+            expected-output: 'message'
+            use-default: false
+          - test-case: 'daily-activity'
+            workflow-type: 'daily-activity'
+            test-name: 'Test User'
+            expected-output: 'activity-summary'
+            use-default: false
 
     steps:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v5
 
-      - name: Test Local Action
+      - name: Test Local Action - ${{ matrix.test-case }}
         id: test-action
         uses: ./
         with:
-          milliseconds: 2000
+          name: ${{ matrix.test-name }}
+          workflow-type: ${{ matrix.use-default && '' || matrix.workflow-type }}
 
-      - name: Print Output
+      - name: Print Output - ${{ matrix.test-case }}
         id: output
-        run: echo "${{ steps.test-action.outputs.time }}"
+        env:
+          OUTPUT_VALUE: ${{ steps.test-action.outputs[matrix.expected-output] }}
+          TEST_CASE: ${{ matrix.test-case }}
+        run: |
+          echo "Output for ${TEST_CASE}:"
+          echo "$OUTPUT_VALUE"
