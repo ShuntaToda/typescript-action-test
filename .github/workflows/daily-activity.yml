@@ -1,0 +1,27 @@
+name: Daily Activity Report
+
+on:
+  schedule:
+    # 毎日午前9時（UTC）に実行
+    - cron: '0 9 * * *'
+  workflow_dispatch: # 手動実行も可能
+
+permissions:
+  contents: read
+
+jobs:
+  daily-activity:
+    name: Daily Activity Report
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Run Daily Activity Report
+        env:
+          WORKFLOW_TYPE: daily-activity
+        run: node dist/index.js
+
+      - name: Print Completion
+        run: echo "Daily activity report completed!"
